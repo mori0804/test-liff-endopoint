@@ -25,28 +25,62 @@
   </form>
 </body>
 
-  <script>
-    const LIFF_ID = "2008227932-Rq9rJrJn"; // ← StepBで発行されたLIFF IDを入れる
+<script>
+  const LIFF_ID = "2008227932-Rq9rJrJn"; // ← あなたのLIFF ID
 
-    async function main() {
-      await liff.init({ liffId: LIFF_ID });
-      if (!liff.isLoggedIn()) {
-        document.getElementById("btnLogin").onclick = () => liff.login();
-      } else {
-        document.getElementById("btnLogin").style.display = "none";
-        const profile = await liff.getProfile();
-        const idToken = liff.getIDToken();
-        document.getElementById("output").textContent = JSON.stringify({
-          displayName: profile.displayName,
-          userId: profile.userId,
-          idToken: idToken
-        }, null, 2);
-      }
+  async function main() {
+    await liff.init({ liffId: LIFF_ID });
+
+    if (!liff.isLoggedIn()) {
+      document.getElementById("btnLogin").onclick = () => liff.login();
+    } else {
+      document.getElementById("btnLogin").style.display = "none";
+      const profile = await liff.getProfile();
+      const idToken = liff.getIDToken();
+
+      // ログイン情報を表示
+      document.getElementById("output").textContent = JSON.stringify({
+        displayName: profile.displayName,
+        userId: profile.userId,
+        idToken: idToken
+      }, null, 2);
+
+      // ===== フォーム送信処理をここで追加 =====
+      const form = document.getElementById("shiftForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const data = {
+          shiftDate: formData.get("shiftDate"),
+          startTime: formData.get("startTime"),
+          endTime: formData.get("endTime"),
+        };
+
+        // 今はデモなのでアラート表示だけ
+        alert("送信データ:\n" + JSON.stringify(data, null, 2) + 
+              "\n\nIDToken:\n" + idToken);
+
+        // 将来はここでサーバーに送信する（例）
+        /*
+        await fetch("https://your-api.example.com/api/shifts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+          },
+          body: JSON.stringify(data)
+        });
+        */
+      });
     }
+  }
 
-    main();
-  </script>
+  main();
+</script>
+
 </body>
 </html>
+
 
 
