@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>LIFF Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <h1>LIFF Demo</h1>
+  <button id="btnLogin">LINEログイン</button>
+  <pre id="output">ログインしていません</pre>
+
+  <script>
+    const LIFF_ID = "YOUR_LIFF_ID"; // ← StepBで発行されたLIFF IDを入れる
+
+    async function main() {
+      await liff.init({ liffId: LIFF_ID });
+      if (!liff.isLoggedIn()) {
+        document.getElementById("btnLogin").onclick = () => liff.login();
+      } else {
+        document.getElementById("btnLogin").style.display = "none";
+        const profile = await liff.getProfile();
+        const idToken = liff.getIDToken();
+        document.getElementById("output").textContent = JSON.stringify({
+          displayName: profile.displayName,
+          userId: profile.userId,
+          idToken: idToken
+        }, null, 2);
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
