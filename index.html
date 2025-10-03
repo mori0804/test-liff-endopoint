@@ -45,34 +45,24 @@
         idToken: idToken
       }, null, 2);
 
-      // ===== フォーム送信処理をここで追加 =====
+      // ===== フォーム送信処理 =====
       const form = document.getElementById("shiftForm");
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+      if (form) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-        const formData = new FormData(form);
-        const data = {
-          shiftDate: formData.get("shiftDate"),
-          startTime: formData.get("startTime"),
-          endTime: formData.get("endTime"),
-        };
+          const formData = new FormData(form);
+          const data = {
+            shiftDate: formData.get("shiftDate"),
+            startTime: formData.get("startTime"),
+            endTime: formData.get("endTime"),
+          };
 
-        // 今はデモなのでアラート表示だけ
-        alert("送信データ:\n" + JSON.stringify(data, null, 2) + 
-              "\n\nIDToken:\n" + idToken);
-
-        // 将来はここでサーバーに送信する（例）
-        /*
-        await fetch("https://your-api.example.com/api/shifts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`
-          },
-          body: JSON.stringify(data)
+          // 入力内容をアラートで表示
+          alert("送信データ:\n" + JSON.stringify(data, null, 2) +
+                "\n\nIDToken:\n" + idToken);
         });
-        */
-      });
+      }
     }
   }
 
@@ -81,6 +71,7 @@
 
 </body>
 </html>
+
 
 
 
