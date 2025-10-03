@@ -8,9 +8,22 @@
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
-  <h1>LIFF Demo</h1>
+  <h1>LIFF Demo + シフト入力</h1>
+  
+  <!-- ログイン表示エリア -->
   <button id="btnLogin">LINEログイン</button>
   <pre id="output">ログインしていません</pre>
+
+  <hr>
+
+  <!-- シフト入力フォーム -->
+  <form id="shiftForm">
+    <label>日付: <input type="date" name="shiftDate" required></label><br><br>
+    <label>開始時間: <input type="time" name="startTime" required></label><br><br>
+    <label>終了時間: <input type="time" name="endTime" required></label><br><br>
+    <button type="submit">送信</button>
+  </form>
+</body>
 
   <script>
     const LIFF_ID = "2008227932-Rq9rJrJn"; // ← StepBで発行されたLIFF IDを入れる
@@ -35,4 +48,5 @@
   </script>
 </body>
 </html>
+
 
